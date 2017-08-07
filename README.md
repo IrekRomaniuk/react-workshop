@@ -8,3 +8,5 @@ Related Links:
 - https://kucharskimaciej.github.io/devmeetings-react-redux-workshop
 
 - https://github.com/kucharskimaciej/devmeetings-react-redux-workshop
+
+- https://randomuser.me/
