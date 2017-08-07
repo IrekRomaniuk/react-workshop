@@ -1,32 +1,64 @@
 import React from 'react';
 import ContactList from './Contactlist'
-//import mycontacts from './contact.json'
-
+//import Searchbar from './Searchbar'
+import contacts from './mycontacts.js'
+import _ from 'lodash'
+//import axios from 'axios'
  
-function Contact () {
-    const contacts = [
-      {
-        name: "Irek Romaniuk",
-        phone: "401-405-1545",
-        email: "irek@romaniuk.us"
-      } ,
-      {
-        name: "Jan Kowalski",
-        phone: "601-405-1545",
-        email: "jan@kowalski.pl"
-      }
-    ]
+class Contact extends React.Component {
     
-    return (
-      <section>
-            <div>
-                { contacts.map(contact =>
-                <ContactList key={ contact.id }
-                             item={ contact } />
-            ) }
-            </div>
-      </section>
-    )
+    state = {
+        contacts: contacts, 
+        search: "",
+        sortdir: ''
+    }
+       
+    /*componentDidMount() {
+      axios.get('https://randomuser.me/api/')
+      .then(res => this.setState({ randomcontacts: res.data }))
+      .catch(err => console.log(err))
+    }*/
+    handleSearch (e) {
+        this.setState({ search: e.target.value })
+        //console.log(this.state.search)
+    }
+    handleClick () {
+        //console.log(this.state.sortdir)
+        this.state.sortdir === 'asc' ? 
+            this.setState({sortdir: 'desc'}):
+            this.setState({sortdir: 'asc'})
+            this.setState({ 
+                contacts: _.sortBy(this.state.contacts, 'name', this.state.sortdir ),
+            });
+    }
+    render() {
+        return (
+        <section>
+                <div>
+                    <form onSubmit={e => e.preventDefault()}>
+                        <input
+                            type='text'
+                            size='45'
+                            placeholder='Search...'
+                            onChange={this.handleSearch.bind(this)}
+                            value={this.state.search} />
+                        <button
+                            type='submit'
+                            onClick={this.handleClick.bind(this)}>
+                            Sort
+                        </button>
+                    </form>
+                        { 
+                            this.state.contacts
+                            .filter(contact => !contact.name.indexOf(this.state.search,0))
+                            .map(contact =>
+                                <ContactList   key={ contact.phone }
+                                             item={ contact } />) 
+                }
+                </div>
+        </section>
+        )
+    }
 }
 
 export default Contact;

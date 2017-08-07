@@ -1,5 +1,7 @@
-//import axios from 'axios'
-/*componentDidMount() {
+import axios from 'axios'
+componentDidMount() {
       axios.get('https://randomuser.me/api/')
-      .then(data => console.log(data))
-    }*/
+      .then(res => this.setState({ randomcontacts: res.data }))
+      .catch(err => console.log(err))
+    }
+    
